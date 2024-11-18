@@ -1,10 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const bookPath= require("./routes/books");
+const authorPath = require("./routes/authors");
+const logger = require("./middlewares/logger");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const authorPath = require("./routes/authors")
-const bookPath= require("./routes/books")
+
 //Connection To Database
 mongoose.connect(process.env.MONGO_URI)
     .then(()=>console.log("Connected To mondoDB..."))
@@ -13,6 +15,8 @@ mongoose.connect(process.env.MONGO_URI)
 const app = express();
 // Apply middlwares
 app.use(express.json());
+
+app.use(logger);
 // Routes
 app.use("/api/books",bookPath)
 app.use("/authors",authorPath);
