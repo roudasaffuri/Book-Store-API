@@ -22,13 +22,15 @@ Centralized error handling.
 
 MongoDB connection and schema design for Books and Authors.
 
-Technologies Used
-Node.js: Backend runtime.
-Express: Framework for routing and middleware.
-MongoDB: NoSQL database.
-Mongoose: Object Data Modeling (ODM) library for MongoDB.
-Joi: Data validation.
-dotenv: Environment variable management.
+## Technologies Used
+* Node.js: Backend runtime.
+* Express: Framework for routing and middleware.
+* MongoDB: NoSQL database.
+* Mongoose: Object Data Modeling (ODM) library for MongoDB.
+* Joi: Data validation.
+* dotenv: Environment variable management.
+
+
 
 
 ## Postman
