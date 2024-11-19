@@ -1,6 +1,7 @@
 
 # Book-Store-API
 A simple Bookstore API built with Node.js, Express, and MongoDB to manage books and authors. The project supports CRUD operations for books and authors, with proper error handling and validation.
+The API was tested using Postman for all endpoints.
 
 
 ## Features
