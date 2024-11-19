@@ -11,17 +11,17 @@ The API was tested using Postman for all endpoints.
 * Populate related author details when retrieving book information.
 ### Authors:
 
-Add, update, delete, and fetch authors.
+* Add, update, delete, and fetch authors.
 ### Validation:
 
-Input validation using Joi for both books and authors.
+* Input validation using Joi for both books and authors.
 ### Middleware:
 
-Logger for tracking API calls.
-Centralized error handling.
+* Logger for tracking API calls.
+* Centralized error handling.
 ### Database:
 
-MongoDB connection and schema design for Books and Authors.
+* MongoDB connection and schema design for Books and Authors.
 
 ## Technologies Used
 * Node.js: Backend runtime.
