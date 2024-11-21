@@ -42,4 +42,36 @@ router.post("/register" , asyncHandler(async(req,res)=>{
     
 }));
 
+
+/**
+ * @desc Login User
+ * @route /api/auth/login
+ * @method POST
+ * @access public
+ */
+
+router.post("/login" , asyncHandler(async(req,res)=>{
+    const {error} = validateLoginUser(req.body);
+    if(error) {
+        return res.status(400).json({message : error.details[0].message});
+    }
+
+    // if Invalid Email
+    let user = await User.findOne({email : req.body.email});
+    if(!user) {
+        return res.status(400).json({message : "Invalid Email or Password"});
+        }
+    // comapre the password from the user and the password from the database
+    const isPasswordMatch = await bcrypt.compare(req.body.password,user.password);
+    if(!isPasswordMatch) {
+        return res.status(400).json({message : "Invalid Email or Password"});
+        }
+        // if password match :
+        const token = null;
+    const {password , ...other} = user._doc;
+    res.status(200).json({token , ...other});
+
+    
+}));
+
 module.exports = router;
