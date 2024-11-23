@@ -1,8 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const asyncHandler = require("express-async-handler");
-const { User ,validateLoginUser,validateRegisterUser} = require("../models/User");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
+const { 
+    User ,
+    validateLoginUser,
+    validateRegisterUser
+} = require("../models/User");
+
 
 /**
  * @desc Register New User
@@ -30,11 +37,12 @@ router.post("/register" , asyncHandler(async(req,res)=>{
         email : req.body.email ,
         username : req.body.username ,
         password : req.body.password ,
-        isAdmin : req.body.isAdmin,
+    
     });
     // save user to database
     const result = await user.save();
-    const token = null ;
+    const token = jwt.sign({ id:user._id , username : user.username , isAdmin : user.isAdmin} ,
+         process.env.JWT_SECRET_KEY ,);
 
     const {password , ...other} = result._doc;
     res.status(201).json({token , ...other});
@@ -67,8 +75,15 @@ router.post("/login" , asyncHandler(async(req,res)=>{
         return res.status(400).json({message : "Invalid Email or Password"});
         }
         // if password match :
-        const token = null;
+
+        const token = jwt.sign({ id:user._id , username : user.username , isAdmin : user.isAdmin} ,
+             process.env.JWT_SECRET_KEY ,
+             // { expiresIn : "30d" }  // 1d -day , 1m =minute , 1w -week "if you want define time expires to the token"
+            );
+
+
     const {password , ...other} = user._doc;
+
     res.status(200).json({token , ...other});
 
     
