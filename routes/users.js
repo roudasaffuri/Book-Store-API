@@ -55,4 +55,41 @@ router.get("/" ,verifyTokenAndAdmin ,  asyncHandler(async(req,res)=>{
     })
 );
 
+/**
+ * @desc Get  Users By Id
+ * @route /api/users/:id
+ * @method GET
+ * @access private (only admin & user himself)
+ */
+
+router.get("/:id" ,verifyTokenAndAdmin ,  asyncHandler(async(req,res)=>{
+
+    const user = await User.findById(req.params.id).select("-password");
+    if(user){
+    res.status(200).json(user);
+    }else{
+        res.status(404).json({message:"user not fount"});
+    }
+    })
+);
+
+/**
+ * @desc Delete  Users By Id
+ * @route /api/users/:id
+ * @method DELETE
+ * @access private (only admin & user himself)
+ */
+
+router.delete("/:id" ,verifyTokenAndAdmin ,  asyncHandler(async(req,res)=>{
+    const user = await User.findById(req.params.id);
+    if(user){
+        await User.findByIdAndDelete(req.params.id);
+    res.status(200).json({message:"user has been deleted successfully"});
+    }else{
+        res.status(404).json({message:"user not fount"});
+    }
+    })
+);
+
+
 module.exports = router;
