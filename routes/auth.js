@@ -2,12 +2,13 @@ const express = require("express");
 const router = express.Router();
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+
+
 
 const { 
     User ,
     validateLoginUser,
-    validateRegisterUser
+    validateRegisterUser,
 } = require("../models/User");
 
 
@@ -41,8 +42,8 @@ router.post("/register" , asyncHandler(async(req,res)=>{
     });
     // save user to database
     const result = await user.save();
-    const token = jwt.sign({ id:user._id , username : user.username , isAdmin : user.isAdmin} ,
-         process.env.JWT_SECRET_KEY ,);
+    const token = user.generateAuthToken();
+
 
     const {password , ...other} = result._doc;
     res.status(201).json({token , ...other});
@@ -76,10 +77,7 @@ router.post("/login" , asyncHandler(async(req,res)=>{
         }
         // if password match :
 
-        const token = jwt.sign({ id:user._id , username : user.username , isAdmin : user.isAdmin} ,
-             process.env.JWT_SECRET_KEY ,
-             // { expiresIn : "30d" }  // 1d -day , 1m =minute , 1w -week "if you want define time expires to the token"
-            );
+        const token = user.generateAuthToken();
 
 
     const {password , ...other} = user._doc;

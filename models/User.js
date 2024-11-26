@@ -1,5 +1,8 @@
 const mongoose=require("mongoose");
 const Joi = require("joi");
+const jwt = require("jsonwebtoken");
+
+
 
 const UserSchema = new mongoose.Schema({
     email : {
@@ -32,8 +35,11 @@ const UserSchema = new mongoose.Schema({
     timestamps : true
 });
 
-
-
+// Generate Token
+UserSchema.methods.generateAuthToken = function() {
+    return jwt.sign({ id : this._id , username : this.username , isAdmin : this.isAdmin} ,process.env.JWT_SECRET_KEY)
+};
+    // { expiresIn : "30d" }  // 1d -day , 1m =minute , 1w -week "if you want define time expires to the token"}
 
 //User Model 
 const User = mongoose.model("User",UserSchema);
@@ -76,4 +82,5 @@ module.exports = {
     validateLoginUser,
     validateRegisterUser,
     validateUpdateUser,
+   
 }

@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const {verifyTokenAndAdmin} = require("../middlewares/verifyToken")
 const asyncHandler = require("express-async-handler");
  // replace the try and catch make the code more clear and clean
 const {Author,validateCreateAuthor,validateUpdateAuthor} = require("../models/Authors");
@@ -38,9 +39,9 @@ router.get("/:id",asyncHandler( async (req, res) => {
  * @desc Create New Author
  * @route /authors
  * @method Post
- * @access public
+ * @access private (only admin)
  */
-router.post("/", asyncHandler(async (req, res) => {
+router.post("/",verifyTokenAndAdmin ,asyncHandler(async (req, res) => {
     const { error } = validateCreateAuthor(req.body);
 
     if (error) return res.status(400).send({ messege: error.details[0].message });
@@ -60,9 +61,9 @@ router.post("/", asyncHandler(async (req, res) => {
  * @desc update author
  * @route /authors/:id
  * @method PUT
- * @access public
+ * @access private (only admin)
  */
-router.put('/:id',asyncHandler(async (req, res) => {
+router.put('/:id',verifyTokenAndAdmin ,asyncHandler(async (req, res) => {
     const {error} = validateUpdateAuthor(req.body);
     if(error) return res.status(400).send({messege : error.details[0].message});
 
@@ -87,9 +88,9 @@ router.put('/:id',asyncHandler(async (req, res) => {
  * @desc delete Author
  * @route /authors/:id
  * @method delete
- * @access public
+ * @access private (only admin)
  */
-router.delete('/:id', asyncHandler( async (req, res) => {
+router.delete('/:id', verifyTokenAndAdmin, asyncHandler( async (req, res) => {
    const author = await Author.findById(req.params.id);
    if(author) {
     await Author.findByIdAndDelete(req.params.id);
