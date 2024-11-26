@@ -14,15 +14,39 @@ const {validateCreateBook,validateUpdateBook,Book}= require("../models/Book")
  * @access public
  */         //  asyncHandler( .... route handler ... מטפל במסלול )
 router.get("/" ,asyncHandler( async (req,res) => {
+    
+    console.log(req.query);
+    const {minPrice , maxPrice } = req.query; 
+
     //The .populate() method in Mongoose is used to populate referenced fields in a document.
     // It allows you to retrieve data from related documents stored in different collections,
     // based on the references defined in your schema.
     // populate(2 arguments) :
     //First argument : "author": This is the field in the Book schema that references another collection (e.g., Author).
-    //Second argument : ["_id", "firstName", "lastName"]: Specifies which fields to include from the related Author.                      
-    const books  = await Book.find().populate("author" , ["_id" ,  "firstName" , "lastName"]);
+    //Second argument : ["_id", "firstName", "lastName"]: Specifies which fields to include from the related Author. 
+    
+    // Comparison Query Operators ==>   https://www.mongodb.com/docs/manual/reference/operator/query-comparison/
+    // $eq  : Equal
+    // $ne  : Not Equal
+    // $gt  : Greater Than
+    // $gte : Equal and Greater Than 
+    // $lt  : Less Than
+    // $lte : Equal and Less Than
+    // $in  : In Array   $in:[8,9] ,
+    // $nin : Not In Array
+
+    // http://localhost:5000/api/books?minPrice=9&maxPrice=12  ? =query
+    let books ;
+    if(minPrice && maxPrice){
+     books  = await Book.find({price : {$gte:minPrice , $lte:maxPrice}}).populate("author" , ["_id" ,  "firstName" , "lastName"]);
     res.json(books).status(200);
-}))
+    }else{
+        books  = await Book.find().populate("author" , ["_id" ,  "firstName" , "lastName"]);
+    res.json(books).status(200);
+    }
+}
+))
+
 
 /**
  * @desc Get Book By Id
