@@ -2,7 +2,8 @@
 
 
 const {Book} = require("./models/Book");
-const {books} = require("./data");
+const {Author} = require("./models/Authors");
+const {books,authors} = require("./data");
 const connectToDB = require("./config/db");
 require("dotenv").config();
 
@@ -19,6 +20,18 @@ const importBooks = async () => {
         process.exit(0); // Exit with success
     } catch (error) {
         console.error("Error importing books:", error.message);
+        process.exit(1); // Exit with failure
+    }
+};
+
+// Import Authors
+const importAuthors = async () => {
+    try {
+        await Author.insertMany(authors);
+        console.log("Authors Imported successfully");
+        process.exit(0); // Exit with success
+    } catch (error) {
+        console.error("Error importing Authors:", error.message);
         process.exit(1); // Exit with failure
     }
 };
@@ -42,7 +55,9 @@ if (process.argv[2] === "-import"){
     importBooks();
     } else if (process.argv[2] === "-remove"){
         removeBooks();
-}
+    }else if (process.argv[2] === "-import-authors"){
+        importAuthors();
+    }
 
 // Terminal : 
 // to run file js on terminal you need to write first node and then the name of the file like "seeder"

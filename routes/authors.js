@@ -15,8 +15,18 @@ const {Author,validateCreateAuthor,validateUpdateAuthor} = require("../models/Au
  * @access public
  */
 router.get("/", asyncHandler(async (req, res) => {
-        const listAuthors = await Author.find();
+  const {paginNumber} = req.query;
+  if(paginNumber){
+  const authorsPerPage = 2;
+
+        const listAuthors = await Author.find()
+                                        .skip((paginNumber -1)*authorsPerPage )
+                                        .limit(authorsPerPage);
          res.json(listAuthors).status(200); 
+         }else{
+          const authors = await Author.find();
+          res.json(authors).status(200);
+          }
 }))
 
 
