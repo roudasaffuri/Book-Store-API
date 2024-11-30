@@ -18,11 +18,15 @@ app.use(express.json());
 app.use(logger);
 
 
+app.set("view engine", "ejs");
+
+
 // Routes
 app.use("/api/books",require("./routes/books"))
 app.use("/authors",require("./routes/authors"));
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/users", require("./routes/users"));
+app.use("/password", require("./routes/password"));
 
 
 
