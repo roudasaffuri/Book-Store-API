@@ -1,38 +1,17 @@
+# Book Store API
+# API Development with Node.js, Express.js, and MongoDB
 
-# Book-Store-API
-A simple Bookstore API built with Node.js, Express, and MongoDB to manage books and authors. The project supports CRUD operations for books and authors, with proper error handling and validation.
-The API was tested using Postman for all endpoints.
+In this project, I built a RESTful API using Node.js and the Express.js framework, with MongoDB for data storage. The API provides essential CRUD operations, and I implemented several key concepts and techniques to ensure security, scalability, and maintainability.
 
+## Key Features and Technologies
 
-## Features
-### Books:
-
-* Add, update, delete, and fetch books.
-* Populate related author details when retrieving book information.
-### Authors:
-
-* Add, update, delete, and fetch authors.
-### Validation:
-
-* Input validation using Joi for both books and authors.
-### Middleware:
-
-* Logger for tracking API calls.
-* Centralized error handling.
-### Database:
-
-* MongoDB connection and schema design for Books and Authors.
-
-## Technologies Used
-* Node.js: Backend runtime.
-* Express: Framework for routing and middleware.
-* MongoDB: NoSQL database.
-* Mongoose: Object Data Modeling (ODM) library for MongoDB.
-* Joi: Data validation.
-* dotenv: Environment variable management.
+- **HTTP Methods**: Implemented essential HTTP methods (GET, POST, PUT, DELETE) for handling requests.
+- **Postman Client**: Used Postman to test and document the API endpoints.
+- **Input Validation**: Ensured data integrity and security by validating input data before processing.
+- **Authentication & Authorization with JWT**: Implemented secure user authentication and authorization using JSON Web Tokens (JWT).
+- **Password Hashing**: Used bcrypt.js for securely hashing user passwords.
+- **Mongoose ODM**: Utilized Mongoose as an Object Data Modeling (ODM) library to interact with MongoDB.
+- **Middleware in Express.js**: Leveraged Express middleware for error handling, logging, and request processing.
 
 
 
-
-## Postman
-![Screenshot 2024-11-18 184943](https://github.com/user-attachments/assets/39eafac5-f7f2-4383-b94e-2876221003d0)
