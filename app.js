@@ -15,6 +15,10 @@ const app = express();
 
 // Apply middlwares
 app.use(express.json());
+//middlware urlencoded
+// parse data coming from forms (like username and password)
+//extended: false means it works for simple data(key:value)
+app.use(express.urlencoded({extended:false}));
 app.use(logger);
 
 
