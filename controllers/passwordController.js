@@ -1,7 +1,8 @@
 const { User }= require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-
+const nodemailer = require("nodemailer");
+require('dotenv').config();
 
 const asyncHandler = require("express-async-handler");
 
@@ -37,8 +38,44 @@ module.exports.sendForgotPasswordLink = asyncHandler( async (req,res)=>{
     const secret = process.env.JWT_SECRET_KEY + user.password;
     const token = jwt.sign({id : user._id , email : user.email }, secret, {expiresIn : "10m"});
     const link = `http://localhost:5000/password/reset-password/${user._id}/${token}`;
-    res.json({message : 'Click on the link' , resetPassword : link});
-    });
+    
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.EMAIL_AP,
+          pass: process.env.PASSWORD_AP,
+        },
+        secure: false, // Use true for port 465
+        tls: {
+          rejectUnauthorized: false, // Accept self-signed certificates (development only)
+        },
+      });
+      
+      const mailOptions = {
+        from: process.env.EMAIL_AP, // Ensure this is your email
+        to: req.body.email,
+        subject: "Reset Password",
+        html: `
+          <div>
+            <h1>Reset Password</h1>
+            <h4>Click on the link to reset your password</h4>
+            <p>${link}</p>
+          </div>
+        `,
+      };
+      
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error("Error sending email:", error);
+        } else {
+          console.log("Email sent:", info.response);
+        }
+      });
+      
+      res.render("link-send");
+
+});
+
 
 
 
