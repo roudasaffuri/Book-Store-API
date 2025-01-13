@@ -54,7 +54,7 @@ module.exports.sendForgotPasswordLink = asyncHandler( async (req,res)=>{
       const mailOptions = {
         from: process.env.EMAIL_AP, // Ensure this is your email
         to: req.body.email,
-        subject: "Reset Password",
+        subject: "Reset Password ! ",
         html: `
           <div>
             <h1>Reset Password</h1>
