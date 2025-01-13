@@ -67,12 +67,14 @@ module.exports.sendForgotPasswordLink = asyncHandler( async (req,res)=>{
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
           console.error("Error sending email:", error);
+          return res.status(500).json({ message: "Error sending email" });
         } else {
           console.log("Email sent:", info.response);
+          res.render("link-send");
         }
       });
       
-      res.render("link-send");
+     
 
 });
 
