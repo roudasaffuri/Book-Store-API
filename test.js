@@ -18,12 +18,3 @@ console.log(new Date().toISOString());
 //2025-01-10T13-52-40.800Z
 console.log(new Date().toISOString().replace(/:/g, '-'));
 
-// MONGO_URI=mongodb://localhost/bookStoreDB
-// MONGO_URII=mongodb://localhost/rouda
-// PORT=5000
-// NODE_ENV=development
-// JWT_SECRET_KEY=secretKey1234567890
-// EMAIL_AP=saffuri87@gmail.com
-// PASSWORD_AP=ermd rjoc bgoz laic
-
-
